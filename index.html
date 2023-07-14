@@ -6,12 +6,69 @@
     <link rel="stylesheet" href="style.css">
     <title>Library</title>
 </head>
-<button id="add"> + Add Book</button>
 <body>
+    <header class="header">
+      <div class="container">
+        <h1>my library</h1>
+      </div>
+    </header>
 
+    <main class="main container">
+      <button data-open-modal class="btn btn-add">+ Add book</button>
+    </main>
 
+    <dialog data-modal>
+      <form class="add-book-form" >
+        <h3>Add new book</h3>
+        <input
+          class="input"
+          type="text"
+          id="title"
+          placeholder="Title"
+          required
+          maxlength="100"
+        />
+        <p class="error-msg" id="errorMsg"></p>
+        <input
+          class="input"
+          type="text"
+          id="author"
+          placeholder="Author"
+          required
+          maxlength="100"
+        />
+        <input
+          class="input"
+          type="number"
+          id="pages"
+          placeholder="Pages"
+          required
+          max="10000"
+        />
+        <div class="is-read">
+          <label for="is-read">Have you read it?</label>
+          <input class="checkbox" type="checkbox" id="isRead" />
+        </div>
+        <button class="btn btn-light-green" type="submit">Submit</button>
+      </form>
+    </dialog>
 
-    <script src="script.js"></script>
+    <footer class="footer">
+      <p>
+        Copyright ©
+        <script>
+          document.write(new Date().getFullYear())
+        </script>
+             <script src="script.js">
+
+            </script>
+        John Siefert
+      </p>
+      <a href="https://github.com/johnsiefert" target="_blank">
+        <i class="fab fa-github"></i
+      ></a>
+    </footer>
+
 </body>
 
 </html>
