@@ -1,72 +1,95 @@
-const addBookBtn = document.querySelector("[data-open-modal]");
-const submitBtn = document.querySelector("#submit");
-const modal =document.querySelector("[data-modal]");
-const booksGrid = document.querySelector("#booksGrid")
-let myLibrary = ["kk","kksdfa"];
+const formContainer = document.querySelector("#container");
+const form = document.querySelector("#form");
+const newBook = document.querySelector("#new-book");
+const overlay = document.querySelector(".overlay");
+const closeButton = document.querySelector(".close");
+const bookshelf = document.querySelector(".bookshelf");
+let formOpen = false;
+let myLibrary = [];
 
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-  this.info = function() {
-    return `${title} by ${author}, ${pages} pages, ${read}`;
-     }
+class Book {
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+  }
 }
 
-function addBookToLibrary() {
-    const addBook ={
-    title: "",
-    author: "",
-    pages: 0,
-    read: "",
- }
- myLibrary.push(addBook);
+function formOpenOrClosed() {
+  if (formOpen) {
+    formContainer.style.transform = "scale(0)";
+    newBook.style.transform = "rotate(0)";
+    form.reset();
+    overlay.style.opacity = 0;
+    formOpen = false;
+  } else {
+    formContainer.style.transform = "scale(1)";
+    newBook.style.transform = "rotate(45deg)";
+    overlay.style.opacity = 1;
+    formOpen = true;
+  }
 }
 
+// close modal
+function closeModal() {
+  formContainer.style.transform = "scale(0)";
+  overlay.style.opacity = 0;
+  newBook.style.transform = "rotate(0)";
+  form.reset();
+  formOpen = false;
+}
 
+function addToLibrary(i)  {
+  let bookNode = document.createElement("div")
+  bookNode.classList.add("book");
+  bookNode.setAttribute("data-index", `${i}`);
 
+  const title = document.getElementById("title").value;
+  let titleNode = document.createElement("h2");
+  titleNode.innerHTML = `Title: ${title}`;
 
-addBookBtn.addEventListener("click", () => {
-modal.showModal()
+  const author = document.getElementById("author").value;
+  let authorNode = document.createElement("h3");
+  authorNode.innerHTML = `Author: ${author}`;
+
+  const pages = document.getElementById("pages").value;
+  let pagesNode = document.createElement("h3");
+  pagesNode.innerHTML = `Pages: ${pages}`;
+
+  const read = document.getElementById("read").value;
+  let readNode = document.createElement("h3");
+  readNode.innerHTML = `Read? ${read}${read === "Yes" ? "😃" : "😢"}`;
+
+  const book = new Book(title, author, pages, read);
+  myLibrary.push(book);
+  bookNode.appendChild(titleNode);
+  bookNode.appendChild(authorNode);
+  bookNode.appendChild(pagesNode);
+  bookNode.appendChild(readNode);
+  bookshelf.appendChild(bookNode);
+}
+
+function getBooks() {
+myLibrary.forEach((book, i) => {
+addToLibrary(i)
+})
+bookNode.appendChild(titleNode);
+bookNode.appendChild(authorNode);
+bookNode.appendChild(pagesNode);
+bookNode.appendChild(readNode);
+bookshelf.appendChild(bookNode);
+
+}
+
+document.addEventListener("load", getBooks);
+newBook.addEventListener("click", formOpenOrClosed);
+closeButton.addEventListener("click", closeModal);
+form.addEventListener("submit", (e, i) => {
+  e.preventDefault();
+  addToLibrary(i);
 });
 
-function bookContainer() {
-console.log(myLibrary);
-for(let i = 0; i < myLibrary.length; i++) {
 
-    //form Container
-    let formContainer = document.createElement("DIV");
-    formContainer.setAttribute("class", "books-grid");
-    document.body.appendChild(formContainer);
-
-    //form
-    let form = document.createElement("FORM");
-    formContainer.appendChild(form);
-    form.setAttribute("class", "book-card");
-    let formTitle = document.createElement("H2");
-    formTitle.textContent = "Book Information";
-    form.appendChild(formTitle);
-    //form inputs
-    let formTitleInput = document.createElement("INPUT");
-    formTitleInput.setAttribute("type", "text");
-    formTitleInput.setAttribute("class", "book-card");
-    formTitleInput.setAttribute("placeholder", "Title");
-    form.appendChild(formTitleInput);
-    //author inputs
-    let formAuthorInput = document.createElement("INPUT");
-    formAuthorInput.setAttribute("type", "text");
-    formAuthorInput.setAttribute("class", "book-card");
-    formAuthorInput.setAttribute("placeholder", "Author");
-    form.appendChild(formAuthorInput);
-    //pages inputs
-    let formPagesInput = document.createElement("INPUT");
-    formPagesInput.setAttribute("type", "text");
-    formPagesInput.setAttribute("class", "book-card");
-    formPagesInput.setAttribute("placeholder", "Pages");
-    form.appendChild(formPagesInput);
-}
-}
-bookContainer()
 
 
